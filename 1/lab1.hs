@@ -2,6 +2,8 @@ import qualified Data.Char as Char
 import qualified Data.Map as Map
 import qualified Data.List as List
 import qualified Control.Monad as Monad
+import System.Environment
+import System.IO
 
 cutWord :: String -> String
 cutWord = reverse . dropWhile (`elem` "!.,:;-')(=") . reverse
@@ -28,7 +30,13 @@ printWordBar maxWord (word, value) =
   in putStrLn $ word ++ spaces ++ bar
 
 main = do
-  text <- getContents
+  args <- getArgs
+  text <- if null args
+    then getContents
+    else fmap concat $ Monad.forM args $ 
+      \file -> do
+        file <- readFile file
+        return file
   let 
     words   = splitLine text
     maxWord = maxWordLen words
