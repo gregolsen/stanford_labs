@@ -1,0 +1,13 @@
+Name:                Lab1
+Version:             0.0
+Description:         Lab1 implementation (http://www.scs.stanford.edu/11au-cs240h/labs/lab1.html)
+License:             GPL
+License-file:        LICENSE
+Author:              gregolsen
+Maintainer:          anotheroneman@yahoo.com
+Build-Type:          Simple
+Cabal-Version:       >=1.2
+
+Executable haq
+  Main-is:           Haq.hs
+  Build-Depends:     base >= 3 && < 5
