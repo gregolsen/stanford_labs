@@ -9,7 +9,7 @@ cutWord :: String -> String
 cutWord = reverse . dropWhile (`elem` "!.,:;-')(=") . reverse
 
 splitLine :: String -> [String]
-splitLine = filter (\x -> length x > 0) . map ((map Char.toLower) . cutWord) . words
+splitLine = filter (\x -> length x > 0) . map (map Char.toLower . cutWord) . words
 
 maxWordLen :: [String] -> Int
 maxWordLen = maximum . map length
@@ -25,18 +25,15 @@ process = List.sortBy (\(_, v1) (_, v2) -> v2 `compare` v1) . Map.toList . build
 
 printWordBar :: Int -> (String, Int) -> IO ()
 printWordBar maxWord (word, value) =
-  let spaces = take (1 + maxWord - (length $ word)) $ cycle [' '] 
-      bar = take value $ cycle ['#']
+  let spaces = take (1 + maxWord - length word) $ cycle " "
+      bar = take value $ cycle "#"
   in putStrLn $ word ++ spaces ++ bar
 
 main = do
   args <- getArgs
   text <- if null args
     then getContents
-    else fmap concat $ Monad.forM args $ 
-      \file -> do
-        file <- readFile file
-        return file
+    else fmap concat . Monad.forM args $ readFile
   let 
     words   = splitLine text
     maxWord = maxWordLen words
