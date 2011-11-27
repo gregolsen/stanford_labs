@@ -8,9 +8,9 @@ Maintainer:          anotheroneman@yahoo.com
 Build-Type:          Simple
 Cabal-Version:       >=1.2
 
---library
---  build-depends:
---    contatiner >= 2
+library
+  build-depends:
+    --contatiners
 
 Executable haq
   Main-is:           Haq.hs
