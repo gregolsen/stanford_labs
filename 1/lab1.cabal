@@ -8,10 +8,6 @@ Maintainer:          anotheroneman@yahoo.com
 Build-Type:          Simple
 Cabal-Version:       >=1.2
 
-library
-  build-depends:
-    --contatiners
-
-Executable haq
-  Main-is:           Haq.hs
-  Build-Depends:     base >= 3 && < 5
+Executable lab1
+  Main-is:           Lab1.hs
+  Build-Depends:     base >= 3 && < 5, containers
