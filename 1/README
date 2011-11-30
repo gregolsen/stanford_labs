@@ -1,2 +1,9 @@
 This is an implementation of the first lab from here
 http://www.scs.stanford.edu/11au-cs240h/labs/lab1.html
+
+To build:
+make
+
+To build using cabal:
+cabal install --prefix=$HOME --user
+This will place lab1 executable in yous user ~/bin dir
