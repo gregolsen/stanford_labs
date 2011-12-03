@@ -26,7 +26,7 @@ process :: [String] -> [WordStat]
 process = List.sortBy (\(_, v1) (_, v2) -> v2 `compare` v1) . Map.toList . buildDict . toDictList
 
 calcBarLen :: Int -> Int -> Int
-calcBarLen value maxLen = round((fromIntegral(80 * value)) / fromIntegral(maxLen))
+calcBarLen value maxLen = round(fromIntegral(80 * value) / fromIntegral maxLen)
 
 printWordBar :: Int -> Int -> WordStat -> IO ()
 printWordBar maxWord maxLen (word, value) =
@@ -44,4 +44,4 @@ main = do
     maxWord = maxWordLen words
     result  = process words
     maxLen  = snd $ head result
-  mapM_ (printWordBar maxWord maxLen) $ filter (\(word, value) -> (calcBarLen value maxLen) > 0) result
+  mapM_ (printWordBar maxWord maxLen) $ filter (\(word, value) -> calcBarLen value maxLen > 0) result
