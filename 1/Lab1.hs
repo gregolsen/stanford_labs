@@ -14,19 +14,24 @@ splitLine = filter (\x -> length x > 0) . map (map Char.toLower . cutWord) . wor
 maxWordLen :: [String] -> Int
 maxWordLen = maximum . map length
 
-toDictList :: [String] -> [(String, Int)]
+type WordStat = (String, Int)
+
+toDictList :: [String] -> [WordStat]
 toDictList = map (\x -> (x, 1))
 
-buildDict :: [(String, Int)] -> Map.Map String Int
+buildDict :: [WordStat] -> Map.Map String Int
 buildDict = Map.fromListWith (+)
 
-process :: [String] -> [(String, Int)]
+process :: [String] -> [WordStat]
 process = List.sortBy (\(_, v1) (_, v2) -> v2 `compare` v1) . Map.toList . buildDict . toDictList
 
-printWordBar :: Int -> (String, Int) -> IO ()
-printWordBar maxWord (word, value) =
+calcBarLen :: Int -> Int -> Int
+calcBarLen value maxLen = round((fromIntegral(80 * value)) / fromIntegral(maxLen))
+
+printWordBar :: Int -> Int -> WordStat -> IO ()
+printWordBar maxWord maxLen (word, value) =
   let spaces = take (1 + maxWord - length word) $ cycle " "
-      bar = take value $ cycle "#"
+      bar = take (fromIntegral(calcBarLen value maxLen)) $ cycle "#"
   in putStrLn $ word ++ spaces ++ bar
 
 main = do
@@ -38,4 +43,5 @@ main = do
     words   = splitLine text
     maxWord = maxWordLen words
     result  = process words
-  mapM_ (printWordBar maxWord) result
+    maxLen  = snd $ head result
+  mapM_ (printWordBar maxWord maxLen) $ filter (\(word, value) -> (calcBarLen value maxLen) > 0) result
